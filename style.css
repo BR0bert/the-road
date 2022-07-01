@@ -1,7 +1,14 @@
-* {
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
+  font-family: inherit;
   box-sizing: border-box;
+}
+
+:root {
+  --clr-primary: black;
+  --clr-light: #f4f4f4;
+  --clr-dark: #333;
 }
 
 html {
@@ -13,6 +20,15 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+
+body {
+  margin: 0;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/*-------------------HEADER-----------------------*/
 
 #add-card--form {
   display: flex;
@@ -35,21 +51,210 @@ html {
   padding: 1rem;
   border-radius: 1rem;
   margin-right: 1rem;
+  font-size: 1rem;
 }
 
 #add-card--input::placeholder {
   color: white;
+  opacity: 0.6;
 }
 
 #add-card--button {
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 700;
-  background-image: linear-gradient(to right, white, gray);
+  font-size: 1.25rem;
+  font-weight: bold;
+  background-image: linear-gradient(to right, white, yellow);
+  color: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 #add-card--button:hover {
   opacity: 0.7;
+}
+
+/*-------------------CARD-CONTAINER-----------------------*/
+
+/*-------------------CARD-----------------------*/
+
+.card-container {
+  display: flex;
+  padding: 20px 50px;
+}
+
+.todo-card {
+  width: 300px;
+  height: auto;
+  /* border: 3px solid white; */
+
+  /* padding: 10px; */
+}
+
+.new-list {
+  background: transparent;
+  border: 0;
+  color: black;
+  border-bottom: 1px solid black;
+  outline: none;
+  transition: border-bottom 250ms ease-in;
+  font-size: 1.2rem;
+  order: 2;
+}
+
+.new-list:focus {
+  border-bottom-width: 3px;
+}
+
+.new-list:focus::placeholder {
+  opacity: 0.2;
+}
+
+.new-list::placeholder {
+  font-size: 1.2rem;
+}
+
+.new-task-creator form {
+  display: flex;
+  padding: 0.2rem;
+}
+
+.btn {
+  cursor: pointer;
+  background: 0;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+
+.btn.task {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-right: 0.25rem;
+  transition: opacity 250ms ease-in;
+  margin-bottom: 0;
+}
+
+.btn.task:hover {
+  opacity: 0.7;
+}
+
+.todo-card {
+  --spacer: 1rem;
+  background: var(--clr-light);
+  color: var(--clr-dark);
+}
+
+.todo-header {
+  background: rgb(231, 212, 163);
+  padding: var(--spacer);
+
+  text-align: center;
+}
+
+.title {
+  margin: 0 1rem 0 0;
+}
+
+.todo-body {
+  padding: 35px;
+  font-size: 1.2rem;
+  position: relative;
+}
+
+[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+}
+
+.task label {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.task::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -0.5em;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.1;
+}
+
+.task {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.custom-checkbox {
+  --size: 0.75rem;
+
+  display: inline-block;
+  width: var(--size);
+  height: var(--size);
+  margin-right: var(--size);
+  cursor: pointer;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: transform 300ms ease-in-out;
+}
+
+.task:hover .custom-checkbox,
+[type="checkbox"]:focus + label .custom-checkbox {
+  transform: scale(1.2);
+  color: var(--clr-primary);
+}
+
+[type="checkbox"]:checked + label .custom-checkbox {
+  background: var(--clr-primary);
+  box-shadow: inset 0 0 0px 2px white;
+}
+
+[type="checkbox"]:checked + label {
+  opacity: 0.5;
+}
+
+.task label::after {
+  content: "";
+  position: absolute;
+  left: 1em;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 150ms ease-in-out;
+}
+
+[type="checkbox"]:checked + label::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.delete-tasks {
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 3px;
+}
+
+.btn.delete {
+  font-size: 0.8rem;
+}
+
+.btn.delete.green:hover {
+  color: green;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.btn.delete.red:hover {
+  color: red;
+  font-size: 1rem;
+  font-weight: bold;
 }

@@ -6,22 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Road|To Do App</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto+Slab:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!--------------------------HEADER---------------------------->
-    <header>
-      <form id="add-card--form">
-        <input
-          id="add-card--input"
-          type="text"
-          placeholder="name of the to-do card"
-        />
-        <input id="add-card--button" type="submit" value="Add card" />
-      </form>
-    </header>
-    <!--------------------------CONTAINER---------------------------->
-    <!--------------------------CARD-CONTAINER---------------------------->
-    <!--------------------------CARD---------------------------->
+    <div class="content">
+      <header>
+        <form id="add-card--form">
+          <input
+            id="add-card--input"
+            type="text"
+            placeholder="name of the to-do card"
+          />
+          <input id="add-card--button" type="submit" value="Add card" />
+        </form>
+      </header>
+
+      <!--------------------------CARD-CONTAINER---------------------------->
+      <div class="card-container">
+        <!--------------------------To-Do CARD---------------------------->
+        <div class="todo-card">
+          <div class="todo-header">
+            <h2 class="title">YouTube</h2>
+          </div>
+          <div class="todo-body">
+            <div class="tasks">
+              <div class="task">
+                <input type="checkbox" id="task-1" />
+                <label for="task-1"
+                  ><span class="custom-checkbox"> </span>record to-do list
+                  video</label
+                >
+              </div>
+              <!------CLOSE TASK ONE----->
+              <div class="task">
+                <input type="checkbox" id="task-2" />
+                <label for="task-2"
+                  ><span class="custom-checkbox"> </span>another task</label
+                >
+              </div>
+              <!------CLOSE TASK TWO----->
+              <div class="task">
+                <input type="checkbox" id="task-3" />
+                <label for="task-3"
+                  ><span class="custom-checkbox"> </span>a third task</label
+                >
+              </div>
+              <!------CLOSE TASK THREE----->
+            </div>
+            <div class="new-task-creator">
+              <form action="">
+                <input
+                  type="text"
+                  class="new-list"
+                  placeholder="new task name"
+                  aria-label="new task name"
+                />
+                <button class="btn task" aria-label="create new task">+</button>
+              </form>
+            </div>
+            <div class="delete-tasks">
+              <button class="btn delete green">Clear completed tasks</button>
+              <button class="btn delete red">Delete card</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>
