@@ -4,13 +4,33 @@ const theForm = document.querySelector("#add-card--form");
 const inputForm = document.querySelector("#add-card--input");
 const cardContainer = document.querySelector(".card-container");
 
-let cards = [
-  {
-    id: 1,
-    name: "programming",
-  },
-  { id: 2, name: "teaching" },
-];
+const LOCAL_STORAGE_CARD_KEY = "todo.cards";
+let cards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CARD_KEY)) || [];
+
+//display the to-do cards
+render();
+
+//EVENT LISTENER TO CREATE A TO-DO CARD BASED ON THE NAME INPUTTED
+
+theForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const inputName = inputForm.value;
+  if (inputName == null || inputName === "") return;
+  const card = createCard(inputName);
+  inputForm.value = null;
+  cards.push(card);
+  saveAndRender();
+});
+
+function saveAndRender() {
+  saveToLocalStorage();
+  render();
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem(LOCAL_STORAGE_CARD_KEY, JSON.stringify(cards));
+}
 
 function render() {
   clearContainer(cardContainer);
@@ -19,11 +39,13 @@ function render() {
   });
 }
 
-// theForm.addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   clearCardContainer(cardContainer);
-//   createNewCard();
-// });
+function createCard(name) {
+  return {
+    id: Date.now().toString(),
+    name: name,
+    tasks: [],
+  };
+}
 
 function createNewCard(cardId, cardName) {
   //   if (inputForm.value != "") {
@@ -96,5 +118,3 @@ function clearContainer(container) {
     container.removeChild(container.firstChild);
   }
 }
-
-render();
