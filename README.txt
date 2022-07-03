@@ -8,3 +8,10 @@ The new task will show up in the card's body.
 4.To delete the card simply click "Delete Card" bottom right corner.
 
 5.To remove all the completed tasks click "Clear completed tasks" bottom left corner.
+
+
+
+* Set header background to a random color (choose between orange, yellow, darkgreen, black, purple, darkblue) each time a new card is created
+* Output message (in a div, not as alert) if the input field remains blank
+* Import local storage
+* Save to local storage 

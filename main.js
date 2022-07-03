@@ -5,10 +5,10 @@ const inputForm = document.querySelector("#add-card--input");
 const cardContainer = document.querySelector(".card-container");
 
 const LOCAL_STORAGE_CARD_KEY = "todo.cards";
+// const LOCAL_STORAGE_SELECTED_CARD_ID_KEY = "todo.selectedCardId";
 let cards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CARD_KEY)) || [];
 
-//display the to-do cards
-render();
+// let selectedCardId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CARD_ID_KEY);
 
 //EVENT LISTENER TO CREATE A TO-DO CARD BASED ON THE NAME INPUTTED
 
@@ -22,6 +22,27 @@ theForm.addEventListener("submit", (e) => {
   cards.push(card);
   saveAndRender();
 });
+
+//Delete a todo-card
+cardContainer.addEventListener("click", (e) => {
+  if (
+    e.target.className === "btn-delete-red" &&
+    e.target.parentElement.parentElement.parentElement.id
+  ) {
+    let selectedCardId = e.target.parentElement.parentElement.parentElement.id;
+    cards = cards.filter((card) => card.id !== selectedCardId);
+  }
+
+  saveAndRender();
+});
+
+function createCard(name) {
+  return {
+    id: Date.now().toString(),
+    name: name,
+    tasks: [],
+  };
+}
 
 function saveAndRender() {
   saveToLocalStorage();
@@ -37,14 +58,6 @@ function render() {
   cards.forEach((card) => {
     createNewCard(card.id, card.name);
   });
-}
-
-function createCard(name) {
-  return {
-    id: Date.now().toString(),
-    name: name,
-    tasks: [],
-  };
 }
 
 function createNewCard(cardId, cardName) {
@@ -98,10 +111,11 @@ function createNewCard(cardId, cardName) {
   const deleteTasks = document.createElement("div");
   deleteTasks.classList.add("delete-tasks");
   const deleteCompletedTasks = document.createElement("button");
-  deleteCompletedTasks.setAttribute("class", "btn delete green");
+  deleteCompletedTasks.setAttribute("class", "btn-delete-green");
   deleteCompletedTasks.textContent = "Clear completed tasks";
   const deleteCard = document.createElement("button");
-  deleteCard.setAttribute("class", "btn delete red");
+  deleteCard.setAttribute("class", "btn-delete-red");
+
   deleteCard.textContent = "Delete card";
 
   deleteTasks.appendChild(deleteCompletedTasks);
@@ -118,3 +132,6 @@ function clearContainer(container) {
     container.removeChild(container.firstChild);
   }
 }
+
+//display the to-do cards
+render();

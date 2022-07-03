@@ -246,16 +246,18 @@ body {
   bottom: 3px;
 }
 
-.btn.delete {
+.btn-delete-red,
+.btn-delete-green {
   font-size: 0.8rem;
+  border: none;
 }
 
-.btn.delete.green:hover {
+.btn-delete-green:hover {
   color: green;
   font-size: 1rem;
   font-weight: bold;
 }
-.btn.delete.red:hover {
+.btn-delete-red:hover {
   color: red;
   font-size: 1rem;
   font-weight: bold;
