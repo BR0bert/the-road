@@ -6,9 +6,11 @@ const cardContainer = document.querySelector(".card-container");
 
 const LOCAL_STORAGE_CARD_KEY = "todo.cards";
 // const LOCAL_STORAGE_SELECTED_CARD_ID_KEY = "todo.selectedCardId";
-let cards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CARD_KEY)) || [];
 
-// let selectedCardId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CARD_ID_KEY);
+let cards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CARD_KEY)) || [];
+// let selectedCardId = JSON.parse(
+//   localStorage.getItem(LOCAL_STORAGE_SELECTED_CARD_ID_KEY)
+// );
 
 //EVENT LISTENER TO CREATE A TO-DO CARD BASED ON THE NAME INPUTTED
 
@@ -25,15 +27,49 @@ theForm.addEventListener("submit", (e) => {
 
 //Delete a todo-card
 cardContainer.addEventListener("click", (e) => {
-  if (
-    e.target.className === "btn-delete-red" &&
-    e.target.parentElement.parentElement.parentElement.id
-  ) {
+  if (e.target.className === "btn-delete-red") {
     let selectedCardId = e.target.parentElement.parentElement.parentElement.id;
     cards = cards.filter((card) => card.id !== selectedCardId);
+    saveAndRender();
   }
+});
 
-  saveAndRender();
+//Select current card
+cardContainer.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (e.target.tagName.toLowerCase() === "input") {
+    selectedCardId = e.target.id;
+
+    if (
+      e.target.parentElement.parentElement.parentElement.parentElement.id ===
+      selectedCardId.slice(5)
+    ) {
+      cards.forEach((card) => {
+        if (card.id != selectedCardId.slice(5)) {
+          const currentInput = document.getElementById(`input${card.id}`);
+          currentInput.classList.remove("active-input");
+        }
+      });
+      e.target.classList.add("active-input");
+
+      // localStorage.setItem(
+      //   LOCAL_STORAGE_SELECTED_CARD_ID_KEY,
+      //   JSON.stringify(selectedCardId)
+      // );
+    }
+  }
+});
+
+//get value from current card input
+cardContainer.addEventListener("click", (e) => {
+  if (e.target.className === "btn task") {
+    let selectedCardInputId = e.target.parentElement.children[0].id;
+
+    const currentCardInput = document.getElementById(selectedCardInputId);
+    if (currentCardInput.value != "") {
+      console.log(currentCardInput.value);
+    }
+  }
 });
 
 function createCard(name) {
@@ -42,22 +78,6 @@ function createCard(name) {
     name: name,
     tasks: [],
   };
-}
-
-function saveAndRender() {
-  saveToLocalStorage();
-  render();
-}
-
-function saveToLocalStorage() {
-  localStorage.setItem(LOCAL_STORAGE_CARD_KEY, JSON.stringify(cards));
-}
-
-function render() {
-  clearContainer(cardContainer);
-  cards.forEach((card) => {
-    createNewCard(card.id, card.name);
-  });
 }
 
 function createNewCard(cardId, cardName) {
@@ -93,11 +113,17 @@ function createNewCard(cardId, cardName) {
   newTaskForm.setAttribute("action", "");
   //NEW TASK INPUT
   const newTaskInput = document.createElement("input");
+  newTaskInput.setAttribute("id", `input${cardId}`);
   newTaskInput.setAttribute("type", "text");
   newTaskInput.classList.add("new-list");
   newTaskInput.setAttribute("placeholder", "new task name");
   newTaskInput.setAttribute("aria-label", "new task name");
   newTaskForm.appendChild(newTaskInput);
+  //console.log(cardId);
+  //console.log(selectedCardId);
+  // if (cardId === selectedCardId) {
+  //   newTaskInput.classList.add("active-input");
+  // }
   //NEW TASK BUTTON
   const newTaskButton = document.createElement("button");
   newTaskButton.setAttribute("class", "btn task");
@@ -125,6 +151,39 @@ function createNewCard(cardId, cardName) {
   //    else {
   //     alert("Please give a name to your card");
   //   }
+}
+
+function createNewTask(currentCardTaskElement, taskName) {
+  const task = document.createElement("div");
+  task.classList.add("task");
+  const newTaskInput = document.createElement("input");
+  newTaskInput.setAttribute("type", "checkbox");
+  newTaskInput.setAttribute("id", "task-1");
+  task.appendChild(newTaskInput);
+  const newTaskLabel = document.createElement("label");
+  newTaskLabel.htmlFor = taskName.id;
+  const span = document.createElement("span");
+  span.classList.add("custom-checkbox");
+  newTaskLabel.appendChild(span);
+  newTaskLabel.textContent = taskName;
+  task.appendChild(newTaskLabel);
+  currentCardTaskElement.appendChild(task);
+}
+
+function saveAndRender() {
+  saveToLocalStorage();
+  render();
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem(LOCAL_STORAGE_CARD_KEY, JSON.stringify(cards));
+}
+
+function render() {
+  clearContainer(cardContainer);
+  cards.forEach((card) => {
+    createNewCard(card.id, card.name);
+  });
 }
 
 function clearContainer(container) {
