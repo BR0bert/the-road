@@ -3,6 +3,9 @@
 const theForm = document.querySelector("#add-card--form");
 const inputForm = document.querySelector("#add-card--input");
 const cardContainer = document.querySelector(".card-container");
+const taskTemplate = document.querySelector("#task-template")
+
+
 
 const LOCAL_STORAGE_CARD_KEY = "todo.cards";
 // const LOCAL_STORAGE_SELECTED_CARD_ID_KEY = "todo.selectedCardId";
@@ -62,13 +65,28 @@ cardContainer.addEventListener("click", (e) => {
 
 //get value from current card input
 cardContainer.addEventListener("click", (e) => {
+  e.preventDefault();
+  
   if (e.target.className === "btn task") {
     let selectedCardInputId = e.target.parentElement.children[0].id;
-
+  
     const currentCardInput = document.getElementById(selectedCardInputId);
-    if (currentCardInput.value != "") {
-      console.log(currentCardInput.value);
-    }
+    const taskName =currentCardInput.value;
+
+    if (taskName ==null || taskName === "") return;
+
+    const task = createTask(taskName)
+    currentCardInput.value =null;
+    
+    const selectedCard = cards.find(card =>card.id === selectedCardInputId.slice(5))
+    
+    selectedCard.tasks.push(task)
+    const currentCardTasks = e.target.parentElement.parentElement.parentElement.children[0];
+    
+    const taskElement = document.importNode(taskTemplate.content, true)
+    createNewTask(task, currentCardTasks, taskElement, taskName)
+    saveToLocalStorage();
+    
   }
 });
 
@@ -77,6 +95,14 @@ function createCard(name) {
     id: Date.now().toString(),
     name: name,
     tasks: [],
+  };
+}
+
+function createTask(name){
+  return {
+    id: Date.now().toString(),
+    name: name,
+    complete: false
   };
 }
 
@@ -153,21 +179,31 @@ function createNewCard(cardId, cardName) {
   //   }
 }
 
-function createNewTask(currentCardTaskElement, taskName) {
-  const task = document.createElement("div");
-  task.classList.add("task");
-  const newTaskInput = document.createElement("input");
-  newTaskInput.setAttribute("type", "checkbox");
-  newTaskInput.setAttribute("id", "task-1");
-  task.appendChild(newTaskInput);
-  const newTaskLabel = document.createElement("label");
-  newTaskLabel.htmlFor = taskName.id;
-  const span = document.createElement("span");
-  span.classList.add("custom-checkbox");
-  newTaskLabel.appendChild(span);
-  newTaskLabel.textContent = taskName;
-  task.appendChild(newTaskLabel);
-  currentCardTaskElement.appendChild(task);
+function createNewTask(task, currentCardTasks, taskElement, taskName) {
+  
+    const checkbox = taskElement.querySelector("input");
+    checkbox.setAttribute("id", task.id) 
+    checkbox.checked = task.complete;
+    const label = taskElement.querySelector('label');
+    label.htmlFor = task.id;
+    label.append(taskName);
+    currentCardTasks.appendChild(taskElement);
+  
+
+  // const task = document.createElement("div");
+  // task.classList.add("task");
+  // const newTaskInput = document.createElement("input");
+  // newTaskInput.setAttribute("type", "checkbox");
+  // newTaskInput.setAttribute("id", `label${selectedCardId.slice(5)}`);
+  // task.appendChild(newTaskInput);
+  // const newTaskLabel = document.createElement("label");
+  // newTaskLabel.htmlFor = `label${selectedCardId.slice(5)}`;
+  // const spanElement = document.createElement("span");
+  // // spanElement.classList.add("custom-checkbox");
+  // newTaskLabel.appendChild(spanElement);
+  // newTaskLabel.textContent = taskName;
+  // task.appendChild(newTaskLabel);
+  // currentCardTaskElement.appendChild(task);
 }
 
 function saveAndRender() {
@@ -184,6 +220,20 @@ function render() {
   cards.forEach((card) => {
     createNewCard(card.id, card.name);
   });
+
+  //render the tasks to each card
+  
+  cards.forEach(card =>{
+    
+    card.tasks.forEach(task=>{
+    const tasks = document.getElementById(card.id).children[1].children[0]
+    const todo = document.importNode(taskTemplate.content, true) //todo === taskElement
+    createNewTask(task,tasks, todo, task.name)
+    
+    })
+    
+
+  })
 }
 
 function clearContainer(container) {
@@ -192,5 +242,9 @@ function clearContainer(container) {
   }
 }
 
+
+
+
 //display the to-do cards
 render();
+
