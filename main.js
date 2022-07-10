@@ -5,7 +5,8 @@ const inputForm = document.querySelector("#add-card--input");
 const cardContainer = document.querySelector(".card-container");
 const taskTemplate = document.querySelector("#task-template")
 
-
+let selectedTaskId;
+let currentTodoCardId
 
 const LOCAL_STORAGE_CARD_KEY = "todo.cards";
 // const LOCAL_STORAGE_SELECTED_CARD_ID_KEY = "todo.selectedCardId";
@@ -56,10 +57,65 @@ cardContainer.addEventListener("click", e=>{
 
 cardContainer.addEventListener("click", e=>{
   e.preventDefault();
-  if(e.target.className ==="task"){
-    const selectedTaskId = e.target.children[0].id;
-    const currentTodoCardId = e.target.parentElement.parentElement.parentElement.id
+  //console.log(e.target.tagName.toLowerCase());
+
+  if(e.target.className === "task"){
+      selectedTaskId = e.target.children[0].id;
+      currentTodoCardId = e.target.parentElement.parentElement.parentElement.id
     
+      cards.forEach(card=>{
+        if (card.id === currentTodoCardId){
+          card.tasks.forEach(task=>{
+            if(task.id === selectedTaskId){
+              if(task.complete === false){
+                task.complete = true
+                saveToLocalStorage();
+                render();
+              } else{
+                task.complete = false
+                saveToLocalStorage();
+                render();
+              }
+            
+            
+          }
+        })
+      }
+    })
+    
+  } 
+  
+  if (e.target.tagName.toLowerCase() === "label"){
+    
+      selectedTaskId = e.target.parentElement.children[0].id;
+      currentTodoCardId = e.target.parentElement.parentElement.parentElement.parentElement.id
+    
+      cards.forEach(card=>{
+        if (card.id === currentTodoCardId){
+          card.tasks.forEach(task=>{
+            if(task.id === selectedTaskId){
+              if(task.complete === false){
+                task.complete = true
+                saveToLocalStorage();
+                render();
+              } else{
+                task.complete = false
+                saveToLocalStorage();
+                render();
+              }
+            
+            
+          }
+        })
+      }
+    })
+  }
+
+  if (e.target.tagName.toLowerCase() === "span"){
+    
+    selectedTaskId = e.target.parentElement.parentElement.children[0].id;
+    currentTodoCardId = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.id
+  
     cards.forEach(card=>{
       if (card.id === currentTodoCardId){
         card.tasks.forEach(task=>{
@@ -73,13 +129,17 @@ cardContainer.addEventListener("click", e=>{
               saveToLocalStorage();
               render();
             }
-            
-            
-          }
-        })
-      }
-    })
-  }
+          
+          
+        }
+      })
+    }
+  })
+}
+  
+
+    
+  
 })
 
 //Select current card
