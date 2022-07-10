@@ -31,11 +31,26 @@ theForm.addEventListener("submit", (e) => {
 //Delete a todo-card
 cardContainer.addEventListener("click", (e) => {
   if (e.target.className === "btn-delete-red") {
-    let selectedCardId = e.target.parentElement.parentElement.parentElement.id;
+    const selectedCardId = e.target.parentElement.parentElement.parentElement.id;
     cards = cards.filter((card) => card.id !== selectedCardId);
     saveAndRender();
   }
 });
+
+//delete completed tasks
+cardContainer.addEventListener("click", e=>{
+  if(e.target.className === "btn-delete-green"){
+    const selectedCardId =e.target.parentElement.parentElement.parentElement.id;
+    cards.forEach(card=>{
+      if(card.id === selectedCardId){
+        card.tasks = card.tasks.filter(task => task.complete === false)
+        saveToLocalStorage();
+        render();
+      }
+
+    })
+  }
+})
 
 //select task
 
