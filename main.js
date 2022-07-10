@@ -37,6 +37,36 @@ cardContainer.addEventListener("click", (e) => {
   }
 });
 
+//select task
+
+cardContainer.addEventListener("click", e=>{
+  e.preventDefault();
+  if(e.target.className ==="task"){
+    const selectedTaskId = e.target.children[0].id;
+    const currentTodoCardId = e.target.parentElement.parentElement.parentElement.id
+    
+    cards.forEach(card=>{
+      if (card.id === currentTodoCardId){
+        card.tasks.forEach(task=>{
+          if(task.id === selectedTaskId){
+            if(task.complete === false){
+              task.complete = true
+              saveToLocalStorage();
+              render();
+            } else{
+              task.complete = false
+              saveToLocalStorage();
+              render();
+            }
+            
+            
+          }
+        })
+      }
+    })
+  }
+})
+
 //Select current card
 cardContainer.addEventListener("click", (e) => {
   e.preventDefault();
