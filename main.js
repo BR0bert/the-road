@@ -27,6 +27,7 @@ theForm.addEventListener("submit", (e) => {
   inputForm.value = null;
   cards.push(card);
   saveAndRender();
+
 });
 
 //Delete a todo-card
@@ -71,6 +72,7 @@ cardContainer.addEventListener("click", e=>{
                 task.complete = true
                 saveToLocalStorage();
                 render();
+                
               } else{
                 task.complete = false
                 saveToLocalStorage();
@@ -191,6 +193,7 @@ cardContainer.addEventListener("click", (e) => {
     const taskElement = document.importNode(taskTemplate.content, true)
     createNewTask(task, currentCardTasks, taskElement, taskName)
     saveToLocalStorage();
+    setHeight(cardContainer)
     
   }
 });
@@ -339,6 +342,8 @@ function render() {
     
 
   })
+
+  setHeight(cardContainer)
 }
 
 function clearContainer(container) {
@@ -347,6 +352,30 @@ function clearContainer(container) {
   }
 }
 
+//set the height of the todo cards
+
+function setHeight (container){
+  if(container.firstChild){
+
+    //get the number of tasks
+    //height = task x 50px
+    const todoCards = Array.from(container.children);
+    
+    todoCards.forEach(card =>{
+      
+
+        const taskCount = card.children[1].children[0].childElementCount;
+        const cardHeight = 150 + 40*taskCount;
+        
+
+        card.style.height = `${cardHeight}px`;
+
+    
+      
+    })
+
+  }
+}
 
 
 
