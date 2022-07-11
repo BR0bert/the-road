@@ -83,8 +83,10 @@ header {
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  /* justify-content: space-between; */
+  gap:50px;
   padding: 20px 50px;
+  margin:0 55px auto;
 }
 
 .todo-card {

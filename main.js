@@ -369,8 +369,6 @@ function setHeight (container){
         
 
         card.style.height = `${cardHeight}px`;
-
-    
       
     })
 
