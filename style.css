@@ -150,7 +150,7 @@ header {
 
 .todo-header {
   /* background: rgb(231, 212, 163); */
-  background: rgb(56, 62, 81);
+  /* background: rgb(56, 62, 81); */
   padding: var(--spacer);
 
   text-align: center;

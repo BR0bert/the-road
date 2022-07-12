@@ -178,6 +178,8 @@ cardContainer.addEventListener("click", (e) => {
 
     if (taskName ==null || taskName === "") return;
 
+    
+
     const task = createTask(taskName)
     currentCardInput.value =null;
     
@@ -253,6 +255,7 @@ function createNewCard(cardId, cardName, cardColor) {
   const newTaskInput = document.createElement("input");
   newTaskInput.setAttribute("id", `input${cardId}`);
   newTaskInput.setAttribute("type", "text");
+  newTaskInput.setAttribute("maxlength", "25");
   newTaskInput.classList.add("new-list");
   newTaskInput.setAttribute("placeholder", "new task name");
   newTaskInput.setAttribute("aria-label", "new task name");
@@ -385,7 +388,7 @@ function generateRandomColor (){
 
 const colors = ["red", "blue", "gray", "black", "default","green", "purple", "darkorange"];
 
-return colors[Math.floor(Math.random() * 9)]
+return colors[Math.floor(Math.random() * 8)]
 
 }
 
