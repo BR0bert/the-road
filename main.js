@@ -9,12 +9,8 @@ let selectedTaskId;
 let currentTodoCardId
 
 const LOCAL_STORAGE_CARD_KEY = "todo.cards";
-// const LOCAL_STORAGE_SELECTED_CARD_ID_KEY = "todo.selectedCardId";
 
 let cards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CARD_KEY)) || [];
-// let selectedCardId = JSON.parse(
-//   localStorage.getItem(LOCAL_STORAGE_SELECTED_CARD_ID_KEY)
-// );
 
 //EVENT LISTENER TO CREATE A TO-DO CARD BASED ON THE NAME INPUTTED
 
@@ -203,6 +199,7 @@ function createCard(name) {
     id: Date.now().toString(),
     name: name,
     tasks: [],
+    color: generateRandomColor()
   };
 }
 
@@ -214,7 +211,7 @@ function createTask(name){
   };
 }
 
-function createNewCard(cardId, cardName) {
+function createNewCard(cardId, cardName, cardColor) {
   //   if (inputForm.value != "") {
   //CARD CONTAINER
   const cardContainer = document.querySelector(".card-container");
@@ -226,6 +223,13 @@ function createNewCard(cardId, cardName) {
   //HEADER
   const todoHeader = document.createElement("div");
   todoHeader.classList.add("todo-header");
+
+  if(cardColor ==="default"){
+    todoHeader.style.backgroundColor = "rgb(56, 62, 81)";
+  } else{
+    todoHeader.style.backgroundColor = cardColor;
+  }
+ 
   const h2Title = document.createElement("h2");
   h2Title.classList.add("title"); //here come the title added from input form
   h2Title.textContent = cardName;
@@ -326,7 +330,7 @@ function saveToLocalStorage() {
 function render() {
   clearContainer(cardContainer);
   cards.forEach((card) => {
-    createNewCard(card.id, card.name);
+    createNewCard(card.id, card.name, card.color);
   });
 
   //render the tasks to each card
@@ -375,8 +379,18 @@ function setHeight (container){
   }
 }
 
+//generate random color for the header background of the todo card
 
+function generateRandomColor (){
+
+const colors = ["red", "blue", "gray", "black", "default","green", "purple", "darkorange"];
+
+return colors[Math.floor(Math.random() * 9)]
+
+}
 
 //display the to-do cards
 render();
+
+
 
