@@ -38,7 +38,7 @@ header {
 #add-card--form {
   display: flex;
   margin: auto;
-  width: 30%;
+  /* width: 30%; */
   padding: 40px;
 }
 
@@ -84,9 +84,9 @@ header {
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
-  gap:50px;
+  gap:50px; 
   padding: 20px 50px;
-  margin:0 55px auto;
+  margin:auto;
 }
 
 .todo-card {
@@ -150,7 +150,7 @@ header {
 
 .todo-header {
   /* background: rgb(231, 212, 163); */
-  /* background: rgb(56, 62, 81); */
+  background: rgb(56, 62, 81);
   padding: var(--spacer);
 
   text-align: center;
@@ -268,3 +268,9 @@ header {
   font-size: 1rem;
   font-weight: bold;
 }
+
+/* @media (max-width: 450px) {
+  
+
+
+} */
