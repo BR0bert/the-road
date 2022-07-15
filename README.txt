@@ -12,6 +12,6 @@ The new task will show up in the card's body.
 
 
 * Set header background to a random color (choose between orange, yellow, darkgreen, black, purple, darkblue) each time a new card is created
-* Output message (in a div, not as alert) if the input field remains blank
+* Output message if the input field remains blank
 * Import local storage
 * Save to local storage 
